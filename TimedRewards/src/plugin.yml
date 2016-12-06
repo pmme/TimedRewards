@@ -1,0 +1,9 @@
+name: TimedRewards
+author: ImABradley
+description: A plugin which allows players to claim rewards over set times.
+version: 0.1
+main: imabradley.timedrewards.TimedRewards
+commands:
+  timedrewards:
+    description: Lists all reward commands.
+    aliases: [rewards, tr]
