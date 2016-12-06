@@ -14,11 +14,11 @@ public abstract class Menu implements InventoryHolder
 
 	public Menu(String title, int size)
 	{
-		inventory = Bukkit.createInventory(null, size, Util.colour(title));
+		this.inventory = Bukkit.createInventory(null, size, Util.colour(title));
 		this.size = size;
 	}
 
-	public void show(Player player) { player.openInventory(inventory); }
+	public void open(Player player) { player.openInventory(inventory); }
 
 	public abstract void click(Player player, ItemStack itemStack);
 
