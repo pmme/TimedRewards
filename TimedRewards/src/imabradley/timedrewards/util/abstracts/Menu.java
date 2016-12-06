@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 public abstract class Menu implements InventoryHolder
 {
-	protected Inventory inventory;
+	private Inventory inventory;
 	private int size;
 
 	public Menu(String title, int size)
@@ -21,4 +21,8 @@ public abstract class Menu implements InventoryHolder
 	public void show(Player player) { player.openInventory(inventory); }
 
 	public abstract void click(Player player, ItemStack itemStack);
+
+	public Inventory getInventory() { return inventory; }
+
+	public int getSize() { return size; }
 }
