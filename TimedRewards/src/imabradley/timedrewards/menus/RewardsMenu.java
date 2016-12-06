@@ -1,20 +1,16 @@
 package imabradley.timedrewards.menus;
 
-import imabradley.timedrewards.util.abstracts.Menu;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Inventory;
 
-public class RewardsMenu extends Menu
+public class RewardsMenu
 {
 
-	public RewardsMenu(String title, int size)
-	{
-		super(title, size);
-	}
+	private Inventory inventory;
 
-	@Override
-	public void click(Player player, ItemStack itemStack)
+	public RewardsMenu()
 	{
 
 	}
+
+
 }
