@@ -27,7 +27,7 @@ public class MenuHandler implements Listener
 	@EventHandler
 	public void onClick(InventoryClickEvent event)
 	{
-
+		event.getWhoClicked();
 
 	}
 }
