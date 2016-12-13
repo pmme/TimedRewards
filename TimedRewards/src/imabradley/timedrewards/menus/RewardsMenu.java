@@ -1,17 +1,18 @@
 package imabradley.timedrewards.menus;
 
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 
 public class RewardsMenu
 {
-
 	private Inventory inventory;
-	private MenuType menuType;
 
 	public RewardsMenu()
 	{
-		menuType = MenuType.REWARD;
-	}
+        inventory = Bukkit.createInventory(null, 23, "");
+    }
 
-
+    public Inventory getInventory() {
+        return inventory;
+    }
 }
