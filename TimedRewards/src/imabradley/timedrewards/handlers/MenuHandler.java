@@ -35,10 +35,9 @@ public class MenuHandler implements Listener
         Player player = (Player) event.getWhoClicked();
         Inventory inventory = event.getInventory();
 
-        if (inventory.getName().equals(this.rewardsMenu.getInventory().getName())) {
-
-
-            final RewardsMenuClickEvent rEvent = new RewardsMenuClickEvent(player, inventory, itemStack);
+		if (inventory.getName().equals(this.rewardsMenu.getInventory().getName()))
+		{
+			final RewardsMenuClickEvent rEvent = new RewardsMenuClickEvent(player, inventory, itemStack);
             TimedRewards.getPlugin().getServer().getPluginManager().callEvent(rEvent);
         }
 	}
