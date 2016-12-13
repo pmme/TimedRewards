@@ -16,15 +16,15 @@ public class MenuHandler implements Listener
 {
     private RewardsMenu rewardsMenu;
 
-    public MenuHandler(Plugin plugin) {
-        Bukkit.getPluginManager().registerEvents(this, plugin);
+	public MenuHandler(Plugin plugin) {
+		Bukkit.getPluginManager().registerEvents(this, plugin);
 
         rewardsMenu = new RewardsMenu();
     }
 
-    public RewardsMenu getRewardsMenu() {
-        return rewardsMenu;
-    }
+	public RewardsMenu getRewardsMenu() {
+		return rewardsMenu;
+	}
 
     @EventHandler
     public void onClick(InventoryClickEvent event)
