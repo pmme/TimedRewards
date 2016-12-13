@@ -17,7 +17,7 @@ public class MenuHandler implements Listener
     private RewardsMenu rewardsMenu;
 
     public MenuHandler(Plugin plugin) {
-		Bukkit.getPluginManager().registerEvents(this, plugin);
+        Bukkit.getPluginManager().registerEvents(this, plugin);
 
         rewardsMenu = new RewardsMenu();
     }
@@ -42,8 +42,5 @@ public class MenuHandler implements Listener
             final RewardsMenuClickEvent rEvent = new RewardsMenuClickEvent(player, inventory, itemStack);
             TimedRewards.getPlugin().getServer().getPluginManager().callEvent(rEvent);
         }
-
-
-
 	}
 }
