@@ -24,7 +24,11 @@ public class TimedRewards extends JavaPlugin
 			if (plugin.getConfig().getBoolean("metrics-enabled"))
 			{
 				final Metrics metrics = new Metrics(this);
-				metrics.start();
+
+				if (metrics.start())
+				{
+					Util.log("Metrics successfully enabled!");
+				}
 			}
 		}
 		catch (Exception e)
