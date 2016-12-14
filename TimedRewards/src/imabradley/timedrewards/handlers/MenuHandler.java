@@ -39,6 +39,12 @@ public class MenuHandler implements Listener
 		{
 			final RewardsMenuClickEvent rEvent = new RewardsMenuClickEvent(player, inventory, itemStack);
             TimedRewards.getPlugin().getServer().getPluginManager().callEvent(rEvent);
-        }
+
+			/*
+			 * run through all items, get item which matches name (slot if possible)
+			 * from that we can get info
+			 *
+			 */
+		}
 	}
 }
