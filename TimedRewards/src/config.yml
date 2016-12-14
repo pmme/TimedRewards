@@ -5,11 +5,17 @@
 # MySQL support should hopefully be in 0.2.
 
 
+# Sends anonymous information to mcstats.org. This allows me to see how many servers are using my plugin. (That's all!)
+metrics-enabled: true
+
 menus:
   rewards:
     # Size of the menu (inventory)
     # 56 = Double Chest | 28 = Single Chest
     size: 56
+
+    # The name of the rewards menu.
+    title: '&aRewards Menu'
 
     # This will replace all other items in the menu with the below id, 0 being air (nothing).
     other-items: 0
@@ -30,6 +36,9 @@ menus:
           - '&fTime until next collection: &a{TIME}&f.'
         # The menu slot which the item will be displayed in.
         slot: 20
+        # Commands which are ran when a player successfully claims a reward. (Messages are already sent, see messages.yml to change them)
+        claim-rewards:
+          - 'eco give {PLAYER} 1000'
       weekly:
         id: 266
         amount: 1
@@ -39,6 +48,8 @@ menus:
           - '&fYou can claim this reward once a week!'
           - '&fTime until next collection: &a{TIME}&f.'
         slot: 21
+        claim-rewards:
+          - 'eco give {PLAYER} 5000'
       monthly:
         id: 264
         amount: 1
@@ -50,4 +61,6 @@ menus:
         slot: 22
         # You can make this permission whatever you want! This will prevent players without the permission claiming the reward.
         permission: timedrewards.monthly
+        claim-rewards:
+          - 'eco give {PLAYER} 10000'
   player: [] # TODO

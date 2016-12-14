@@ -1,6 +1,7 @@
 package imabradley.timedrewards;
 
 import imabradley.timedrewards.handlers.MenuHandler;
+import imabradley.timedrewards.util.Metrics;
 import imabradley.timedrewards.util.Util;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,8 +19,19 @@ public class TimedRewards extends JavaPlugin
 
 		Util.loadResource("config.yml");
 
-
-
+		try
+		{
+			if (plugin.getConfig().getBoolean("metrics-enabled"))
+			{
+				final Metrics metrics = new Metrics(this);
+				metrics.start();
+			}
+		}
+		catch (Exception e)
+		{
+			Util.log("[Exception] An exception occurred when trying to get the value of 'metrics-enabled':");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
