@@ -1,5 +1,6 @@
 package imabradley.timedrewards;
 
+import imabradley.timedrewards.commands.RewardsCmd;
 import imabradley.timedrewards.handlers.MenuHandler;
 import imabradley.timedrewards.util.Metrics;
 import imabradley.timedrewards.util.Util;
@@ -18,6 +19,8 @@ public class TimedRewards extends JavaPlugin
 		menuHandler = new MenuHandler(this);
 
 		Util.loadResource("config.yml");
+
+		this.getCommand("timedrewards").setExecutor(new RewardsCmd());
 
 		try
 		{
@@ -44,9 +47,17 @@ public class TimedRewards extends JavaPlugin
 		Util.log("Plugin disabled (version: " + this.getDescription().getVersion() + ") by ImABradley.");
 	}
 
+	public static void reloadPlugin()
+	{
+		Util.log("Reloading plugin..");
+
+		menuHandler = new MenuHandler(TimedRewards.getPlugin());
+		TimedRewards.getPlugin().reloadConfig();
+
+		Util.log("Plugin successfully reloaded.");
+	}
+
 	public static TimedRewards getPlugin() { return plugin; }
 
-	public static MenuHandler getMenuHandler() {
-		return menuHandler;
-	}
+	public static MenuHandler getMenuHandler() { return menuHandler; }
 }

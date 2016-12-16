@@ -8,11 +8,21 @@
 # Sends anonymous information to mcstats.org. This allows me to see how many servers are using my plugin. (That's all!)
 metrics-enabled: true
 
+
+# When right-clicking on an NPC this will open the rewards menu.(Works well with plugins such as Citizens).
+npc:
+  enabled: false
+
+  # The name(s) of the NPC which you want the menu to open when right-clicked on.
+  names:
+    - '&a&lCarl the Creeper'
+    - '&bThe Delivery Man'
+
 menus:
   rewards:
     # Size of the menu (inventory)
-    # 56 = Double Chest | 28 = Single Chest
-    size: 56
+    # 54 = Double Chest | 27 = Single Chest
+    size: 54
 
     # The name of the rewards menu.
     title: '&aRewards Menu'
