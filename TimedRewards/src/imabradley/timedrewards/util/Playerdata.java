@@ -21,8 +21,8 @@ public class Playerdata
 
 		if (!file.exists())
 		{
-
-
+			pconfig.set("current-name", player.getName());
+			pconfig.set("uuid", player.getUniqueId());
 			try
 			{
 				pconfig.save(file);
