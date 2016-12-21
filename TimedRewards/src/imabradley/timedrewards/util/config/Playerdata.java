@@ -1,6 +1,7 @@
-package imabradley.timedrewards.util;
+package imabradley.timedrewards.util.config;
 
 import imabradley.timedrewards.TimedRewards;
+import imabradley.timedrewards.util.Util;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -23,6 +24,7 @@ public class Playerdata
 		{
 			pconfig.set("current-name", player.getName());
 			pconfig.set("uuid", player.getUniqueId());
+
 			try
 			{
 				pconfig.save(file);
