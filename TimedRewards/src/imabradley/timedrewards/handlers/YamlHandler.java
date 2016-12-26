@@ -60,22 +60,24 @@ public class YamlHandler
 		{
 			for (String s : config.getConfigurationSection(path).getKeys(false))
 			{
-				if (config.getString(path + "." + s + ".permission") != null && player.hasPermission(
-						config.getString(path + "." + s + ".permission")))
+				if (config.getString(path + "." + s + ".permission") != null)
 				{
-					if (config.get("rewards." + s + ".can-claim") == null)
+					if (player.hasPermission(config.getString(path + "." + s + ".permission")))
 					{
-						pconfig.set("rewards." + s + ".can-claim", true);
-					}
+						if (config.get("rewards." + s + ".can-claim") == null)
+						{
+							pconfig.set("rewards." + s + ".can-claim", true);
+						}
 
-					if (config.get("rewards." + s + ".next-claim") == null)
-					{
-						pconfig.set("rewards." + s + ".next-claim", config.get(path + "." + s + ".time"));
+						//TODO .next-claim
 					}
+					else pconfig.set("rewards." + s + ".can-claim", false);
 				}
 				else
 				{
-					pconfig.set("rewards." + s + ".can-claim", false);
+					pconfig.set("rewards." + s + ".can-claim", true);
+
+					//TODO .next-claim
 				}
 			}
 
