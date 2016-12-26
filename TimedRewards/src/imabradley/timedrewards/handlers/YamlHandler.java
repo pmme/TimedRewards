@@ -5,6 +5,7 @@ import imabradley.timedrewards.util.Util;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -46,27 +47,35 @@ public class YamlHandler
 		return (String) result;
 	}
 
-	public YamlConfiguration getPlayerYaml(OfflinePlayer player)
+	public YamlConfiguration getPlayerYaml(Player player)
 	{
-		File file = new File(pdfile, player.getUniqueId() + ".yml");
+		File file = new File(pdfile, player.getUniqueId().toString() + ".yml");
 		YamlConfiguration pconfig = YamlConfiguration.loadConfiguration(file);
 		String path = "menus.rewards.reward-items";
 
 		pconfig.set("current-name", player.getName());
-		pconfig.set("uuid", player.getUniqueId());
+		pconfig.set("uuid", player.getUniqueId().toString());
 
 		try
 		{
 			for (String s : config.getConfigurationSection(path).getKeys(false))
 			{
-				if (config.get("rewards." + s + ".can-claim") == null)
+				if (config.getString(path + "." + s + ".permission") != null && player.hasPermission(
+						config.getString(path + "." + s + ".permission")))
 				{
-					pconfig.set("rewards." + s + ".can-claim", true);
-				}
+					if (config.get("rewards." + s + ".can-claim") == null)
+					{
+						pconfig.set("rewards." + s + ".can-claim", true);
+					}
 
-				if (config.get("rewards." + s + ".next-claim") == null)
+					if (config.get("rewards." + s + ".next-claim") == null)
+					{
+						pconfig.set("rewards." + s + ".next-claim", config.get(path + "." + s + ".time"));
+					}
+				}
+				else
 				{
-					pconfig.set("rewards." + s + ".next-claim", config.get(path + "." + s + ".time"));
+					pconfig.set("rewards." + s + ".can-claim", false);
 				}
 			}
 
@@ -82,7 +91,7 @@ public class YamlHandler
 		return pconfig;
 	}
 
-	public void savePlayerYaml(OfflinePlayer player, YamlConfiguration pconfig)
+	public void savePlayerYaml(Player player, YamlConfiguration pconfig)
 	{
 		File file = new File(pdfile, player.getUniqueId() + ".yml");
 
