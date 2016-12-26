@@ -3,6 +3,7 @@ package imabradley.timedrewards;
 import imabradley.timedrewards.commands.RewardsCmd;
 import imabradley.timedrewards.handlers.MenuHandler;
 import imabradley.timedrewards.listeners.PlayerInteractEntityListener;
+import imabradley.timedrewards.listeners.PlayerJoinListener;
 import imabradley.timedrewards.util.Metrics;
 import imabradley.timedrewards.util.Util;
 import imabradley.timedrewards.handlers.YamlHandler;
@@ -13,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class TimedRewards extends JavaPlugin
 {
 	private static TimedRewards plugin;
-	private static YamlHandler configHandler;
+	private static YamlHandler yamlHandler;
 	private static MenuHandler menuHandler;
 
 	@Override
@@ -21,7 +22,7 @@ public class TimedRewards extends JavaPlugin
 	{
 		Util.log("Plugin enabled (version: " + this.getDescription().getVersion() + ") by ImABradley.");
 		plugin = this;
-		configHandler = new YamlHandler();
+		yamlHandler = new YamlHandler();
 		menuHandler = new MenuHandler(this);
 
 		Util.loadResource("config.yml");
@@ -31,6 +32,7 @@ public class TimedRewards extends JavaPlugin
 
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new PlayerInteractEntityListener(), this);
+		pm.registerEvents(new PlayerJoinListener(), this);
 
 		try
 		{
@@ -62,7 +64,7 @@ public class TimedRewards extends JavaPlugin
 		Util.log("Reloading plugin..");
 
 		menuHandler = new MenuHandler(TimedRewards.getPlugin());
-		configHandler.reload();
+		yamlHandler.reload();
 
 		Util.log("Plugin successfully reloaded.");
 	}
@@ -71,5 +73,5 @@ public class TimedRewards extends JavaPlugin
 
 	public static MenuHandler getMenuHandler() { return menuHandler; }
 
-	public static YamlHandler getConfigHandler() { return configHandler; }
+	public static YamlHandler getYamlHandler() { return yamlHandler; }
 }

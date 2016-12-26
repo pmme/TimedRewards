@@ -4,7 +4,6 @@ import imabradley.timedrewards.TimedRewards;
 import imabradley.timedrewards.events.RewardsMenuClickEvent;
 import imabradley.timedrewards.menus.RewardsMenu;
 import imabradley.timedrewards.util.Util;
-import imabradley.timedrewards.util.Playerdata;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -53,7 +52,7 @@ public class MenuHandler implements Listener
 			final RewardsMenuClickEvent rEvent = new RewardsMenuClickEvent(player, inventory, itemStack);
             TimedRewards.getPlugin().getServer().getPluginManager().callEvent(rEvent);
 
-			FileConfiguration config = TimedRewards.getConfigHandler().getConfig();
+			FileConfiguration config = TimedRewards.getYamlHandler().getConfig();
 			String path = "menus.rewards.reward-items";
 
 			for (String s : config.getConfigurationSection(path).getKeys(false))
@@ -65,7 +64,7 @@ public class MenuHandler implements Listener
 					if (itemStack.getItemMeta().getDisplayName() != null && itemStack.getItemMeta().getDisplayName().equals(
 							Util.colour(config.getString(s + ".name"))))
 					{
-						YamlConfiguration pconfig = Playerdata.getYaml(player);
+						YamlConfiguration pconfig = TimedRewards.getYamlHandler().getPlayerYaml(player);
 
 
 					}
