@@ -17,7 +17,7 @@ public class RewardsCmd implements CommandExecutor
 		{
 			Player player = (Player) sender;
 
-			player.openInventory(TimedRewards.getMenuHandler().getRewardsMenu().getInventory());
+			player.openInventory(TimedRewards.getMenuHandler().getRewardsMenu(player).getInventory());
 		}
 
 		return false;

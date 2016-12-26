@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class RewardsMenuClickEvent extends Event
 {
-	private final HandlerList handlerList = new HandlerList();
+	private static final HandlerList handlerList = new HandlerList();
 
 	private Player player;
 	private Inventory inventory;
@@ -60,4 +60,6 @@ public class RewardsMenuClickEvent extends Event
 	{
 		return handlerList;
 	}
+
+	public static HandlerList getHandlerList() { return handlerList; }
 }

@@ -1,7 +1,6 @@
-package imabradley.timedrewards.util.config;
+package imabradley.timedrewards.util;
 
 import imabradley.timedrewards.TimedRewards;
-import imabradley.timedrewards.util.Util;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,8 +11,8 @@ import java.io.IOException;
 public class Playerdata
 {
 	private static String pdfile = TimedRewards.getPlugin().getDataFolder() + File.separator + "playerdata";
-	private static FileConfiguration config = TimedRewards.getPlugin().getConfig();
-	private static String path = "menus.rewards.reward-items";
+	private static FileConfiguration config = TimedRewards.getConfigHandler().getConfig();
+	static String path = "menus.rewards.reward-items";
 
 	public static YamlConfiguration getYaml(OfflinePlayer player)
 	{
@@ -27,12 +26,18 @@ public class Playerdata
 
 			try
 			{
+				for (String s : config.getConfigurationSection(path).getKeys(false))
+				{
+					pconfig.set("rewards." + s + ".can-claim", true);
+					pconfig.set("rewards." + s + ".next-claim", config.get(path + s + ".time"));
+				}
+
 				pconfig.save(file);
 			}
-			catch (IOException e)
+			catch (IOException | NullPointerException e)
 			{
-				Util.log(
-						"An error occurred when saving " + Util.getNameEnding(player.getName()) + " config " + "file:");
+				Util.log("[Exception] An exception occurred when saving " + Util.getNameEnding(
+						player.getName()) + " config " + "file:");
 				e.printStackTrace();
 			}
 		}

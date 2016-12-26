@@ -4,8 +4,10 @@ import imabradley.timedrewards.TimedRewards;
 import imabradley.timedrewards.events.RewardsMenuClickEvent;
 import imabradley.timedrewards.menus.RewardsMenu;
 import imabradley.timedrewards.util.Util;
+import imabradley.timedrewards.util.Playerdata;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,18 +16,25 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class MenuHandler implements Listener
 {
-    private RewardsMenu rewardsMenu;
+	private HashMap<UUID, RewardsMenu> rewardsMenus = new HashMap<>();
 
 	public MenuHandler(Plugin plugin)
 	{
 		Bukkit.getPluginManager().registerEvents(this, plugin);
-
-        rewardsMenu = new RewardsMenu();
     }
 
-	public RewardsMenu getRewardsMenu() { return rewardsMenu; }
+	public void addRewardsMenu(UUID uuid, RewardsMenu rewardsMenu) { rewardsMenus.put(uuid, rewardsMenu); }
+
+	public RewardsMenu getRewardsMenu(Player player)
+	{
+		return rewardsMenus.get(player.getUniqueId()) == null ? rewardsMenus.get(
+				player.getUniqueId()) : new RewardsMenu(player);
+	}
 
     @EventHandler
     public void onClick(InventoryClickEvent event)
@@ -37,14 +46,14 @@ public class MenuHandler implements Listener
         Player player = (Player) event.getWhoClicked();
         Inventory inventory = event.getInventory();
 
-		if (inventory.getName().equals(this.rewardsMenu.getInventory().getName()))
+		if (inventory.getName().equals(this.getRewardsMenu(player).getInventory().getName()))
 		{
 			event.setCancelled(true);
 
 			final RewardsMenuClickEvent rEvent = new RewardsMenuClickEvent(player, inventory, itemStack);
             TimedRewards.getPlugin().getServer().getPluginManager().callEvent(rEvent);
 
-			FileConfiguration config = TimedRewards.getPlugin().getConfig();
+			FileConfiguration config = TimedRewards.getConfigHandler().getConfig();
 			String path = "menus.rewards.reward-items";
 
 			for (String s : config.getConfigurationSection(path).getKeys(false))
@@ -53,9 +62,11 @@ public class MenuHandler implements Listener
 				{
 					String ipath = path + "." + s;
 
-					if (itemStack.getItemMeta() != null && itemStack.getItemMeta().getDisplayName().equals(
+					if (itemStack.getItemMeta().getDisplayName() != null && itemStack.getItemMeta().getDisplayName().equals(
 							Util.colour(config.getString(s + ".name"))))
 					{
+						YamlConfiguration pconfig = Playerdata.getYaml(player);
+
 
 					}
 				}

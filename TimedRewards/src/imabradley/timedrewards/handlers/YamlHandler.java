@@ -1,11 +1,11 @@
-package imabradley.timedrewards.util.config;
+package imabradley.timedrewards.handlers;
 
 import imabradley.timedrewards.TimedRewards;
 import imabradley.timedrewards.util.Util;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class Config
+public class YamlHandler
 {
 	private FileConfiguration config;
 	private YamlConfiguration messages;

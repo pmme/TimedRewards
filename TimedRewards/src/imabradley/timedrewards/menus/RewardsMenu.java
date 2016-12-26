@@ -3,6 +3,7 @@ package imabradley.timedrewards.menus;
 import imabradley.timedrewards.TimedRewards;
 import imabradley.timedrewards.util.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +17,7 @@ public class RewardsMenu
 	private int size;
 	private String title;
 
-	public RewardsMenu()
+	public RewardsMenu(OfflinePlayer player)
 	{
 		FileConfiguration config = TimedRewards.getPlugin().getConfig();
 		String path = "menus.rewards.reward-items";
@@ -70,6 +71,8 @@ public class RewardsMenu
 				e.printStackTrace();
 			}
 		}
+
+		TimedRewards.getMenuHandler().addRewardsMenu(player.getUniqueId(), this);
 	}
 
     public Inventory getInventory() {
