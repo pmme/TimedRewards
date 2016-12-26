@@ -14,12 +14,13 @@ public class YamlHandler
 {
 	private FileConfiguration config;
 	private YamlConfiguration messages;
-	private String pdfile = TimedRewards.getPlugin().getDataFolder() + File.separator + "playerdata";
+	private String pdfile;
 
 	public YamlHandler(Plugin plugin)
 	{
 		this.config = plugin.getConfig();
 		this.messages = YamlConfiguration.loadConfiguration(Util.loadResource("messages.yml"));
+		this.pdfile = plugin.getDataFolder() + File.separator + "playerdata";
 	}
 
 	public void reload()
@@ -45,36 +46,37 @@ public class YamlHandler
 		return (String) result;
 	}
 
-	String path = "menus.rewards.reward-items.daily.id";
-
 	public YamlConfiguration getPlayerYaml(OfflinePlayer player)
 	{
 		File file = new File(pdfile, player.getUniqueId() + ".yml");
 		YamlConfiguration pconfig = YamlConfiguration.loadConfiguration(file);
+		String path = "menus.rewards.reward-items";
 
-		if (!file.exists())
+		pconfig.set("current-name", player.getName());
+		pconfig.set("uuid", player.getUniqueId());
+
+		try
 		{
-			pconfig.set("current-name", player.getName());
-			pconfig.set("uuid", player.getUniqueId());
-
-			try
+			for (String s : config.getConfigurationSection(path).getKeys(false))
 			{
-				Util.log("[Debug] " + path);
-				Util.log("int: " + config.getInt(path));
-				for (String s : config.getConfigurationSection(path).getKeys(false))
+				if (config.get("rewards." + s + ".can-claim") == null)
 				{
 					pconfig.set("rewards." + s + ".can-claim", true);
-					pconfig.set("rewards." + s + ".next-claim", config.get(path + s + ".time"));
 				}
 
-				pconfig.save(file);
+				if (config.get("rewards." + s + ".next-claim") == null)
+				{
+					pconfig.set("rewards." + s + ".next-claim", config.get(path + "." + s + ".time"));
+				}
 			}
-			catch (IOException | NullPointerException e)
-			{
-				Util.log("[Exception] An exception occurred when saving " + Util.getNameEnding(
-						player.getName()) + " config " + "file:");
-				e.printStackTrace();
-			}
+
+			pconfig.save(file);
+		}
+		catch (IOException | NullPointerException e)
+		{
+			Util.log("[Exception] An exception occurred when saving " + Util.getNameEnding(
+					player.getName()) + " config " + "file:");
+			e.printStackTrace();
 		}
 
 		return pconfig;
