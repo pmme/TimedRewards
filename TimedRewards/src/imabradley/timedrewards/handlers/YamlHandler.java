@@ -5,6 +5,7 @@ import imabradley.timedrewards.util.Util;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,9 +16,9 @@ public class YamlHandler
 	private YamlConfiguration messages;
 	private String pdfile = TimedRewards.getPlugin().getDataFolder() + File.separator + "playerdata";
 
-	public void Config()
+	public YamlHandler(Plugin plugin)
 	{
-		this.config = TimedRewards.getPlugin().getConfig();
+		this.config = plugin.getConfig();
 		this.messages = YamlConfiguration.loadConfiguration(Util.loadResource("messages.yml"));
 	}
 
@@ -44,7 +45,7 @@ public class YamlHandler
 		return (String) result;
 	}
 
-	String path = "menus.rewards.reward-items";
+	String path = "menus.rewards.reward-items.daily.id";
 
 	public YamlConfiguration getPlayerYaml(OfflinePlayer player)
 	{
@@ -58,6 +59,8 @@ public class YamlHandler
 
 			try
 			{
+				Util.log("[Debug] " + path);
+				Util.log("int: " + config.getInt(path));
 				for (String s : config.getConfigurationSection(path).getKeys(false))
 				{
 					pconfig.set("rewards." + s + ".can-claim", true);

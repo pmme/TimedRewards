@@ -22,7 +22,7 @@ public class TimedRewards extends JavaPlugin
 	{
 		Util.log("Plugin enabled (version: " + this.getDescription().getVersion() + ") by ImABradley.");
 		plugin = this;
-		yamlHandler = new YamlHandler();
+		yamlHandler = new YamlHandler(this);
 		menuHandler = new MenuHandler(this);
 
 		Util.loadResource("config.yml");
