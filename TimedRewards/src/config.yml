@@ -64,7 +64,7 @@ menus:
       monthly:
         id: 264
         amount: 1
-        name: '&cWeekly Reward'
+        name: '&cMonthly Reward'
         time: 604800
         lore:
           - '&fYou can claim this reward once a week!'

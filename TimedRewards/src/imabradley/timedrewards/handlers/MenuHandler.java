@@ -31,7 +31,7 @@ public class MenuHandler implements Listener
 
 	public RewardsMenu getRewardsMenu(Player player)
 	{
-		return rewardsMenus.get(player.getUniqueId()) == null ? rewardsMenus.get(
+		return rewardsMenus.get(player.getUniqueId()) != null ? rewardsMenus.get(
 				player.getUniqueId()) : new RewardsMenu(player);
 	}
 
@@ -57,22 +57,18 @@ public class MenuHandler implements Listener
 
 			for (String s : config.getConfigurationSection(path).getKeys(false))
 			{
+				String ipath = path + "." + s;
+
 				try
 				{
-					String ipath = path + "." + s;
-
 					if (itemStack.getItemMeta().getDisplayName() != null && itemStack.getItemMeta().getDisplayName().equals(
-							Util.colour(config.getString(s + ".name"))))
+							Util.colour(config.getString(ipath + ".name"))))
 					{
+						//TODO check if permission, check time remaining, reward.
 						YamlConfiguration pconfig = TimedRewards.getYamlHandler().getPlayerYaml(player);
-
-
 					}
 				}
-				catch (Exception e)
-				{
-
-				}
+				catch (NullPointerException e) {}
 			}
 		}
 	}

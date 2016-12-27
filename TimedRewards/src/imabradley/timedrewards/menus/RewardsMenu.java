@@ -19,7 +19,7 @@ public class RewardsMenu
 
 	public RewardsMenu(OfflinePlayer player)
 	{
-		FileConfiguration config = TimedRewards.getPlugin().getConfig();
+		FileConfiguration config = TimedRewards.getYamlHandler().getConfig();
 		String path = "menus.rewards.reward-items";
 
 		size = config.getInt("menus.rewards.size");
@@ -28,6 +28,7 @@ public class RewardsMenu
 
 		for (String s : config.getConfigurationSection(path).getKeys(false))
 		{
+			Util.log("logging " + s);
 			try
 			{
 				String ipath = path + "." + s;
@@ -71,8 +72,6 @@ public class RewardsMenu
 				e.printStackTrace();
 			}
 		}
-
-		TimedRewards.getMenuHandler().addRewardsMenu(player.getUniqueId(), this);
 	}
 
     public Inventory getInventory() {

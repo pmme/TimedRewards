@@ -2,7 +2,6 @@ package imabradley.timedrewards.handlers;
 
 import imabradley.timedrewards.TimedRewards;
 import imabradley.timedrewards.util.Util;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;

@@ -22,11 +22,12 @@ public class TimedRewards extends JavaPlugin
 	{
 		Util.log("Plugin enabled (version: " + this.getDescription().getVersion() + ") by ImABradley.");
 		plugin = this;
-		yamlHandler = new YamlHandler(this);
-		menuHandler = new MenuHandler(this);
 
 		Util.loadResource("config.yml");
 		Util.loadResource("messages.yml");
+
+		yamlHandler = new YamlHandler(this);
+		menuHandler = new MenuHandler(this);
 
 		this.getCommand("timedrewards").setExecutor(new RewardsCmd());
 
