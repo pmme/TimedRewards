@@ -27,7 +27,7 @@ public class MenuHandler implements Listener
 		Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
-	public void addRewardsMenu(UUID uuid, RewardsMenu rewardsMenu) { rewardsMenus.put(uuid, rewardsMenu); }
+	public void openRewardsMenu(Player player) { player.openInventory(this.getRewardsMenu(player).getInventory()); }
 
 	public RewardsMenu getRewardsMenu(Player player)
 	{

@@ -46,6 +46,11 @@ public class YamlHandler
 		return (String) result;
 	}
 
+	public String getPrefix()
+	{
+		return this.getMessage("prefix");
+	}
+
 	public YamlConfiguration getPlayerYaml(Player player)
 	{
 		File file = new File(pdfile, player.getUniqueId().toString() + ".yml");
