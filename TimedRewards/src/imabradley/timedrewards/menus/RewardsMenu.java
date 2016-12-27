@@ -3,13 +3,16 @@ package imabradley.timedrewards.menus;
 import imabradley.timedrewards.TimedRewards;
 import imabradley.timedrewards.util.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class RewardsMenu
 {
@@ -28,7 +31,6 @@ public class RewardsMenu
 
 		for (String s : config.getConfigurationSection(path).getKeys(false))
 		{
-			Util.log("logging " + s);
 			try
 			{
 				String ipath = path + "." + s;
