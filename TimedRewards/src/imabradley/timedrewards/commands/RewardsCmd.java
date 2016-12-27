@@ -2,6 +2,8 @@ package imabradley.timedrewards.commands;
 
 import imabradley.timedrewards.TimedRewards;
 import imabradley.timedrewards.util.Util;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -45,8 +47,10 @@ public class RewardsCmd implements CommandExecutor
 						}
 						else
 						{
-							Util.messagePlayer(player, TimedRewards.getYamlHandler().getMessage("invalid-arguments").replace("{prefix}", TimedRewards.getYamlHandler().getPrefix()).replace("{args}",
-																																															"/tr claim <reward-name>"));
+							Util.messagePlayer(player, TimedRewards.getYamlHandler()
+									.getMessage("invalid-arguments")
+									.replace("{prefix}", TimedRewards.getYamlHandler().getPrefix())
+									.replace("{args}", "/tr claim <reward-name>"));
 						}
 					}
 				}
