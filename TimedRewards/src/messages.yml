@@ -3,7 +3,7 @@
 #
 # messages.yml
 
-prefix: '&7[&6TimedRewards&7] '
+prefix: '&7[&6TimedRewards&7]'
 
 
 invalid-arguments: '{prefix} Invalid arguments, please use: &e{args}&7.'
