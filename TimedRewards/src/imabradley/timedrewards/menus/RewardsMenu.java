@@ -29,9 +29,9 @@ public class RewardsMenu
 		title = Util.colour(config.getString("menus.rewards.title"));
 		inventory = Bukkit.createInventory(null, size, title);
 
-		for (String s : config.getConfigurationSection(path).getKeys(false))
+		try
 		{
-			try
+			for (String s : config.getConfigurationSection(path).getKeys(false))
 			{
 				String ipath = path + "." + s;
 				String fullId = config.getString(ipath + ".id");
@@ -62,43 +62,48 @@ public class RewardsMenu
 				itemMeta.setLore(lore);
 				itemStack.setItemMeta(itemMeta);
 				inventory.setItem(config.getInt(ipath + ".slot"), itemStack);
+			}
 
-				int slot = 0;
+			int slot = 0;
 
-				for (ItemStack stack : inventory)
+			for (ItemStack itemStack : inventory)
+			{
+				if (itemStack == null)
 				{
-					if (stack == null)
+					String fullId = config.getString("menus.rewards.other-items");
+
+					if (fullId.contains(":"))
 					{
-						fullId = config.getString("menus.rewards.other-items");
-
-						if (fullId.contains(":"))
-						{
-							String[] parts = fullId.split(":");
-							stack = new ItemStack(Integer.parseInt(parts[0]), 1, (short) Integer.parseInt(parts[1]));
-						}
-						else
-						{
-							stack = new ItemStack(Integer.parseInt(fullId), 1);
-						}
-
-						ItemMeta meta = stack.getItemMeta();
-						meta.setDisplayName(" ");
-						stack.setItemMeta(meta);
-
-						inventory.setItem(slot, stack);
+						String[] parts = fullId.split(":");
+						itemStack = new ItemStack(Integer.parseInt(parts[0]), 1, (short) Integer.parseInt(parts[1]));
+					}
+					else
+					{
+						itemStack = new ItemStack(Integer.parseInt(fullId), 1);
 					}
 
-					slot++;
+					if (itemStack.getItemMeta() != null) // Air
+					{
+						ItemMeta itemMeta = itemStack.getItemMeta();
+						itemMeta.setDisplayName(" ");
+						itemStack.setItemMeta(itemMeta);
+					}
+
+					inventory.setItem(slot, itemStack);
 				}
+
+				slot++;
 			}
-			catch (NullPointerException e)
-			{
-				Util.log("[Error] A NullPointerException occurred when creating the Rewards Menu:");
-			}
-			catch (Exception e)
-			{
-				Util.log("[Error] An unknown exception occurred when creating the Rewards Menu:");
-			}
+		}
+		catch (NullPointerException e)
+		{
+			Util.log("[Error] A NullPointerException occurred when creating the Rewards Menu for " + player.getName() + ":");
+			e.printStackTrace();
+		}
+		catch (Exception e)
+		{
+			Util.log("[Error] An unknown exception occurred when creating the Rewards Menu for " + player.getName() + ":");
+			e.printStackTrace();
 		}
 
 		MenuHandler.addRewardMenu(player, this);
