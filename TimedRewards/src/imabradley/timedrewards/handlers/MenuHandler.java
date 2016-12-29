@@ -64,8 +64,9 @@ public class MenuHandler implements Listener
 
 				try
 				{
-					if (itemStack.getItemMeta().getDisplayName() != null && itemStack.getItemMeta().getDisplayName().equals(Util
-							.colour(config.getString(path + ".name"))))
+					if (itemStack.getItemMeta().getDisplayName() != null && itemStack.getItemMeta()
+							.getDisplayName()
+							.equals(Util.colour(config.getString(path + ".name"))))
 					{
 						YamlConfiguration pconfig = TimedRewards.getYamlHandler().getPlayerYaml(player);
 
@@ -75,20 +76,10 @@ public class MenuHandler implements Listener
 
 							if (date.getTime() > (next + (config.getLong(path + ".time") * 1000)))
 							{
-								pconfig.set("rewards." + s + ".can-claim", true);
-								Util.log("player can claim!! " + s);
-							}
-						}
-
-						if (pconfig.getBoolean("rewards." + s + ".can-claim"))
-						{
-							if (config.get(path + ".permission") != null)
-							{
-								if (player.hasPermission(config.getString(path + ".permission")))
+								if (config.get(path + ".permission") == null || player.hasPermission(config.getString(path + ".permission")))
 								{
-									pconfig.set("rewards." + s + ".can-claim", false);
-									pconfig.set("rewards." + s + ".claim-time", date.getTime());
-									TimedRewards.getYamlHandler().savePlayerYaml(player, pconfig);
+
+									Util.log("player can claim!! " + s);
 								}
 								else
 								{
@@ -101,7 +92,9 @@ public class MenuHandler implements Listener
 						}
 					}
 				}
-				catch (NullPointerException e) {}
+				catch (NullPointerException e)
+				{
+				}
 			}
 		}
 	}

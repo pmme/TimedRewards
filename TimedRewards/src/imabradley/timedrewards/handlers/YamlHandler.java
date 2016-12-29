@@ -58,45 +58,27 @@ public class YamlHandler
 		YamlConfiguration pconfig = YamlConfiguration.loadConfiguration(file);
 		String path = "menus.rewards.reward-items";
 
-		pconfig.set("current-name", player.getName());
-		pconfig.set("uuid", player.getUniqueId().toString());
-
-		try
+		if (!file.exists())
 		{
+			Date date = new Date();
+
+			pconfig.set("name", player.getName());
+			pconfig.set("uuid", player.getUniqueId().toString());
+
 			for (String s : config.getConfigurationSection(path).getKeys(false))
 			{
-				Date date = new Date();
-
-				if (config.getString(path + "." + s + ".permission") != null)
-				{
-					if (player.hasPermission(config.getString(path + "." + s + ".permission")))
-					{
-						if (pconfig.get("rewards." + s + ".can-claim") == null)
-						{
-							pconfig.set("rewards." + s + ".can-claim", true);
-						}
-
-						if (pconfig.get("rewards." + s + ".claim-time") == null)
-						{
-							pconfig.set("rewards." + s + ".claim-time", date.getTime());
-						}
-					}
-					else pconfig.set("rewards." + s + ".can-claim", false);
-				}
-				else
-				{
-					pconfig.set("rewards." + s + ".can-claim", true);
-					pconfig.set("rewards." + s + ".claim-time", date.getTime());
-				}
+				pconfig.set("rewards." + s + ".claim-time", date.getTime());
 			}
 
-			pconfig.save(file);
-		}
-		catch (IOException | NullPointerException e)
-		{
-			Util.log("[Exception] An exception occurred when saving " + Util.getNameEnding(
-					player.getName()) + " config " + "file:");
-			e.printStackTrace();
+			try
+			{
+				pconfig.save(file);
+			}
+			catch (IOException e)
+			{
+				Util.log("[Error] An IOException occurred when saving " + Util.getNameEnding(player.getName()) + " config " + "file:");
+				e.printStackTrace();
+			}
 		}
 
 		return pconfig;
