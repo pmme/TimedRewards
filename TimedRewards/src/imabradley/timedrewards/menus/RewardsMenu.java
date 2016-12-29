@@ -78,17 +78,21 @@ public class RewardsMenu
 		{
 			if (itemStack == null)
 			{
-				String fullId = "menus.rewards.other-items";
+				String fullId = config.getString("menus.rewards.other-items");
 
 				if (fullId.contains(":"))
 				{
 					String[] parts = fullId.split(":");
-					itemStack = new ItemStack(Integer.parseInt(parts[0]), 1, (short) Integer.parseInt(parts[2]));
+					itemStack = new ItemStack(Integer.parseInt(parts[0]), 1, (short) Integer.parseInt(parts[1]));
 				}
 				else
 				{
 					itemStack = new ItemStack(Integer.parseInt(fullId), 1);
 				}
+
+				ItemMeta itemMeta = itemStack.getItemMeta();
+				itemMeta.setDisplayName("");
+				itemStack.setItemMeta(itemMeta);
 
 				inventory.setItem(slot, itemStack);
 			}
