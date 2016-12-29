@@ -15,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -54,19 +55,50 @@ public class MenuHandler implements Listener
             TimedRewards.getPlugin().getServer().getPluginManager().callEvent(rEvent);
 
 			FileConfiguration config = TimedRewards.getYamlHandler().getConfig();
-			String path = "menus.rewards.reward-items";
+			String shortPath = "menus.rewards.reward-items";
 
-			for (String s : config.getConfigurationSection(path).getKeys(false))
+			for (String s : config.getConfigurationSection(shortPath).getKeys(false))
 			{
-				String ipath = path + "." + s;
+				String path = shortPath + "." + s;
+				Date date = new Date();
 
 				try
 				{
-					if (itemStack.getItemMeta().getDisplayName() != null && itemStack.getItemMeta().getDisplayName().equals(
-							Util.colour(config.getString(ipath + ".name"))))
+					if (itemStack.getItemMeta().getDisplayName() != null && itemStack.getItemMeta().getDisplayName().equals(Util
+							.colour(config.getString(path + ".name"))))
 					{
-						//TODO check if permission, check time remaining, reward.
 						YamlConfiguration pconfig = TimedRewards.getYamlHandler().getPlayerYaml(player);
+
+						if (pconfig.get("rewards." + s + ".claim-time") != null)
+						{
+							long next = pconfig.getLong("rewards." + s + ".claim-time");
+
+							if (date.getTime() > (next + (config.getLong(path + ".time") * 1000)))
+							{
+								pconfig.set("rewards." + s + ".can-claim", true);
+								Util.log("player can claim!! " + s);
+							}
+						}
+
+						if (pconfig.getBoolean("rewards." + s + ".can-claim"))
+						{
+							if (config.get(path + ".permission") != null)
+							{
+								if (player.hasPermission(config.getString(path + ".permission")))
+								{
+									pconfig.set("rewards." + s + ".can-claim", false);
+									pconfig.set("rewards." + s + ".claim-time", date.getTime());
+									TimedRewards.getYamlHandler().savePlayerYaml(player, pconfig);
+								}
+								else
+								{
+									Util.messagePlayer(player, TimedRewards.getYamlHandler()
+											.getMessage("no-claim-permission")
+											.replace("{prefix}", TimedRewards.getYamlHandler().getPrefix())
+											.replace("{reward}", s));
+								}
+							}
+						}
 					}
 				}
 				catch (NullPointerException e) {}

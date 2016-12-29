@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 public class YamlHandler
 {
@@ -64,24 +65,28 @@ public class YamlHandler
 		{
 			for (String s : config.getConfigurationSection(path).getKeys(false))
 			{
+				Date date = new Date();
+
 				if (config.getString(path + "." + s + ".permission") != null)
 				{
 					if (player.hasPermission(config.getString(path + "." + s + ".permission")))
 					{
-						if (config.get("rewards." + s + ".can-claim") == null)
+						if (pconfig.get("rewards." + s + ".can-claim") == null)
 						{
 							pconfig.set("rewards." + s + ".can-claim", true);
 						}
 
-						//TODO .next-claim
+						if (pconfig.get("rewards." + s + ".claim-time") == null)
+						{
+							pconfig.set("rewards." + s + ".claim-time", date.getTime());
+						}
 					}
 					else pconfig.set("rewards." + s + ".can-claim", false);
 				}
 				else
 				{
 					pconfig.set("rewards." + s + ".can-claim", true);
-
-					//TODO .next-claim
+					pconfig.set("rewards." + s + ".claim-time", date.getTime());
 				}
 			}
 

@@ -50,10 +50,12 @@ menus:
           - '&fTime until next collection: &a{TIME}&f.'
         # The menu slot which the item will be displayed in.
         slot: 21
-        # Commands which are ran when a player successfully claims a reward. (Messages are already sent, see messages.yml to change them)
+        # Commands which are ran when a player successfully claims a reward. Note: Commands are ran as console.
+        # Aliases:
+        # {player} - The player who is to be awarded.
         claim-rewards:
-          - 'eco give {PLAYER} 1000'
-          - 'tr msg {PLAYER} &7[&6TimedRewards&7] You have claimed the daily reward!'
+          - 'eco give {player} 1000'
+          - 'tr msg {player} &7[&6TimedRewards&7] You have claimed the daily reward!'
       weekly:
         id: 266
         amount: 1
@@ -64,8 +66,8 @@ menus:
           - '&fTime until next collection: &a{TIME}&f.'
         slot: 22
         claim-rewards:
-          - 'eco give {PLAYER} 5000'
-          - 'tr msg {PLAYER} &7[&6TimedRewards&7] You have claimed the weekly reward!'
+          - 'eco give {player} 5000'
+          - 'tr msg {player} &7[&6TimedRewards&7] You have claimed the weekly reward!'
       monthly:
         id: 264
         amount: 1
@@ -78,6 +80,6 @@ menus:
         # You can make this permission whatever you want! This will prevent players without the permission claiming the reward.
         permission: timedrewards.monthly
         claim-rewards:
-          - 'eco give {PLAYER} 10000'
-          - 'tr msg {PLAYER} &7[&6TimedRewards&7] You have claimed the monthly reward!'
+          - 'eco give {player} 10000'
+          - 'tr msg {player} &7[&6TimedRewards&7] You have claimed the monthly reward!'
   player: [] # TODO

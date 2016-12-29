@@ -48,8 +48,8 @@ public class RewardsCmd implements CommandExecutor
 						{
 							Util.messagePlayer(player, TimedRewards.getYamlHandler()
 									.getMessage("invalid-arguments")
-									.replaceAll("(?i)\\{prefix}", TimedRewards.getYamlHandler().getPrefix())
-									.replaceAll("(?i)\\{args}", "/tr claim <reward-name>"));
+									.replace("{prefix}", TimedRewards.getYamlHandler().getPrefix())
+									.replace("{args}", "/tr claim <reward-name>"));
 						}
 					}
 				}
@@ -57,8 +57,8 @@ public class RewardsCmd implements CommandExecutor
 				{
 					Util.messagePlayer(player, TimedRewards.getYamlHandler()
 							.getMessage("invalid-arguments")
-							.replaceAll("(?i)\\{prefix}", TimedRewards.getYamlHandler().getPrefix())
-							.replaceAll("(?i)\\{args}", "/tr help"));
+							.replace("{prefix}", TimedRewards.getYamlHandler().getPrefix())
+							.replace("{args}", "/tr help"));
 				}
 			}
 		}
