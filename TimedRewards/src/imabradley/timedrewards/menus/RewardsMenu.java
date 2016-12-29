@@ -3,11 +3,8 @@ package imabradley.timedrewards.menus;
 import imabradley.timedrewards.TimedRewards;
 import imabradley.timedrewards.util.Util;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -73,6 +70,30 @@ public class RewardsMenu
 				Util.log("[Exception] An unknown exception occurred when creating the Rewards Menu:");
 				e.printStackTrace();
 			}
+		}
+
+		int slot = 0;
+
+		for (ItemStack itemStack : inventory)
+		{
+			if (itemStack == null)
+			{
+				String fullId = "menus.rewards.other-items";
+
+				if (fullId.contains(":"))
+				{
+					String[] parts = fullId.split(":");
+					itemStack = new ItemStack(Integer.parseInt(parts[0]), 1, (short) Integer.parseInt(parts[2]));
+				}
+				else
+				{
+					itemStack = new ItemStack(Integer.parseInt(fullId), 1);
+				}
+
+				inventory.setItem(slot, itemStack);
+			}
+
+			slot++;
 		}
 	}
 
