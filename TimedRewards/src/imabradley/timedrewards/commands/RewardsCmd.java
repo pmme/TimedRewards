@@ -55,7 +55,10 @@ public class RewardsCmd implements CommandExecutor
 				}
 				else
 				{
-
+					Util.messagePlayer(player, TimedRewards.getYamlHandler()
+							.getMessage("invalid-arguments")
+							.replace("{PREFIX}", TimedRewards.getYamlHandler().getPrefix())
+							.replace("{ARGS}", "/tr help"));
 				}
 			}
 		}

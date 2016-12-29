@@ -20,8 +20,6 @@ public class RewardsMenu
 
 	public RewardsMenu(Player player)
 	{
-		Util.log("[Event] Creating rewards menu for " + player.getName());
-
 		FileConfiguration config = TimedRewards.getYamlHandler().getConfig();
 		String path = "menus.rewards.reward-items";
 
