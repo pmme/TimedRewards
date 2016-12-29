@@ -64,8 +64,7 @@ public class MenuHandler implements Listener
 
 				try
 				{
-					if (itemStack.getItemMeta().getDisplayName() != null && itemStack.getItemMeta()
-							.getDisplayName()
+					if (itemStack.getItemMeta().getDisplayName() != null && itemStack.getItemMeta().getDisplayName()
 							.equals(Util.colour(config.getString(path + ".name"))))
 					{
 						YamlConfiguration pconfig = TimedRewards.getYamlHandler().getPlayerYaml(player);
@@ -78,8 +77,13 @@ public class MenuHandler implements Listener
 							{
 								if (config.get(path + ".permission") == null || player.hasPermission(config.getString(path + ".permission")))
 								{
+									for (String cmd : config.getStringList(path + ".claim-reward-cmds"))
+									{
+										Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
+									}
 
-									Util.log("player can claim!! " + s);
+									Util.log("[Claim] " + player.getName() + " has claimed the reward " + s + ".");
+									pconfig.set("rewards." + s + "claim-time", date.getTime());
 								}
 								else
 								{
@@ -89,12 +93,22 @@ public class MenuHandler implements Listener
 											.replace("{reward}", s));
 								}
 							}
+							else
+							{
+								Util.messagePlayer(player, "You cannot claim that at the moment ~TODO");
+							}
+						}
+						else
+						{
+							pconfig.set("rewards." + s + ".claim-time", date.getTime());
 						}
 					}
 				}
 				catch (NullPointerException e)
 				{
 				}
+
+				player.closeInventory();
 			}
 		}
 	}

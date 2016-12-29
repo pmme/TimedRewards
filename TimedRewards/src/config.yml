@@ -53,7 +53,7 @@ menus:
         # Commands which are ran when a player successfully claims a reward. Note: Commands are ran as console.
         # Aliases:
         # {player} - The player who is to be awarded.
-        claim-rewards:
+        claim-reward-cmds:
           - 'eco give {player} 1000'
           - 'tr msg {player} &7[&6TimedRewards&7] You have claimed the daily reward!'
       weekly:
@@ -65,7 +65,7 @@ menus:
           - '&fYou can claim this reward once a week!'
           - '&fTime until next collection: &a{TIME}&f.'
         slot: 22
-        claim-rewards:
+        claim-reward-cmds:
           - 'eco give {player} 5000'
           - 'tr msg {player} &7[&6TimedRewards&7] You have claimed the weekly reward!'
       monthly:
@@ -78,8 +78,8 @@ menus:
           - '&fTime until next collection: &a{TIME}&f.'
         slot: 23
         # You can make this permission whatever you want! This will prevent players without the permission claiming the reward.
-        permission: timedrewards.monthly
-        claim-rewards:
+        permission: 'timedrewards.monthly'
+        claim-reward-cmds:
           - 'eco give {player} 10000'
           - 'tr msg {player} &7[&6TimedRewards&7] You have claimed the monthly reward!'
   player: [] # TODO
