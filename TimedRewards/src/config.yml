@@ -52,7 +52,8 @@ menus:
         slot: 21
         # Commands which are ran when a player successfully claims a reward. Note: Commands are ran as console.
         # Aliases:
-        # {player} - The player who is to be awarded.
+        # {player} - The player's name.
+        # {uuid}   - The player's uuid.
         claim-reward-cmds:
           - 'eco give {player} 1000'
           - 'tr msg {player} &7[&6TimedRewards&7] You have claimed the daily reward!'

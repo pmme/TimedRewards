@@ -79,7 +79,9 @@ public class MenuHandler implements Listener
 								{
 									for (String cmd : config.getStringList(path + ".claim-reward-cmds"))
 									{
-										Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
+										Bukkit.getServer()
+												.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player
+														.getName()).replace("{uuid}", player.getUniqueId().toString()));
 									}
 
 									Util.log("[Claim] " + player.getName() + " has claimed the reward " + s + ".");
