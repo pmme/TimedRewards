@@ -30,6 +30,8 @@ menus:
     title: '&aRewards Menu'
 
     # This will replace all other items in the menu with the below id, 0 being air (nothing).
+    # Note: If the item id has data make sure to put it as a string by surrounding it with quotes.
+    #       Example: other-items: '160:15'
     other-items: 0
 
     reward-items:
@@ -68,9 +70,9 @@ menus:
         id: 264
         amount: 1
         name: '&cMonthly Reward'
-        time: 604800
+        time: 2419200
         lore:
-          - '&fYou can claim this reward once a week!'
+          - '&fYou can claim this reward once a month!'
           - '&fTime until next collection: &a{TIME}&f.'
         slot: 22
         # You can make this permission whatever you want! This will prevent players without the permission claiming the reward.

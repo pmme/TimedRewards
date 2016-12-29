@@ -1,10 +1,11 @@
 package imabradley.timedrewards.menus;
 
 import imabradley.timedrewards.TimedRewards;
+import imabradley.timedrewards.handlers.MenuHandler;
 import imabradley.timedrewards.util.Util;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,8 +18,10 @@ public class RewardsMenu
 	private int size;
 	private String title;
 
-	public RewardsMenu(OfflinePlayer player)
+	public RewardsMenu(Player player)
 	{
+		Util.log("[Event] Creating rewards menu for " + player.getName());
+
 		FileConfiguration config = TimedRewards.getYamlHandler().getConfig();
 		String path = "menus.rewards.reward-items";
 
@@ -39,7 +42,7 @@ public class RewardsMenu
 				if (fullId.contains(":"))
 				{
 					String[] parts = fullId.split(":");
-					itemStack = new ItemStack(Integer.parseInt(parts[0]), amount, (short) Integer.parseInt(parts[2]));
+					itemStack = new ItemStack(Integer.parseInt(parts[0]), amount, (short) Integer.parseInt(parts[1]));
 				}
 				else
 				{
@@ -59,46 +62,46 @@ public class RewardsMenu
 				itemMeta.setLore(lore);
 				itemStack.setItemMeta(itemMeta);
 				inventory.setItem(config.getInt(ipath + ".slot"), itemStack);
+
+				int slot = 0;
+
+				for (ItemStack stack : inventory)
+				{
+					if (stack == null)
+					{
+						fullId = config.getString("menus.rewards.other-items");
+
+						if (fullId.contains(":"))
+						{
+							String[] parts = fullId.split(":");
+							stack = new ItemStack(Integer.parseInt(parts[0]), 1, (short) Integer.parseInt(parts[1]));
+						}
+						else
+						{
+							stack = new ItemStack(Integer.parseInt(fullId), 1);
+						}
+
+						ItemMeta meta = stack.getItemMeta();
+						meta.setDisplayName(" ");
+						stack.setItemMeta(meta);
+
+						inventory.setItem(slot, stack);
+					}
+
+					slot++;
+				}
 			}
 			catch (NullPointerException e)
 			{
-				Util.log("[Exception] A NullPointerException occurred when creating the Rewards Menu:");
-				e.printStackTrace();
+				Util.log("[Error] A NullPointerException occurred when creating the Rewards Menu:");
 			}
 			catch (Exception e)
 			{
-				Util.log("[Exception] An unknown exception occurred when creating the Rewards Menu:");
-				e.printStackTrace();
+				Util.log("[Error] An unknown exception occurred when creating the Rewards Menu:");
 			}
 		}
 
-		int slot = 0;
-
-		for (ItemStack itemStack : inventory)
-		{
-			if (itemStack == null)
-			{
-				String fullId = config.getString("menus.rewards.other-items");
-
-				if (fullId.contains(":"))
-				{
-					String[] parts = fullId.split(":");
-					itemStack = new ItemStack(Integer.parseInt(parts[0]), 1, (short) Integer.parseInt(parts[1]));
-				}
-				else
-				{
-					itemStack = new ItemStack(Integer.parseInt(fullId), 1);
-				}
-
-				ItemMeta itemMeta = itemStack.getItemMeta();
-				itemMeta.setDisplayName("");
-				itemStack.setItemMeta(itemMeta);
-
-				inventory.setItem(slot, itemStack);
-			}
-
-			slot++;
-		}
+		MenuHandler.addRewardMenu(player, this);
 	}
 
     public Inventory getInventory() {

@@ -20,17 +20,16 @@ import java.util.UUID;
 
 public class MenuHandler implements Listener
 {
-	private HashMap<UUID, RewardsMenu> rewardsMenus = new HashMap<>();
+	private static HashMap<UUID, RewardsMenu> rewardsMenus = new HashMap<>();
 
 	public MenuHandler(Plugin plugin)
 	{
 		Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
-	public void openRewardsMenu(Player player)
-	{
-		player.openInventory(this.getRewardsMenu(player).getInventory());
-	}
+	public static void addRewardMenu(Player player, RewardsMenu menu) { rewardsMenus.put(player.getUniqueId(), menu); }
+
+	public void openRewardsMenu(Player player) { player.openInventory(this.getRewardsMenu(player).getInventory()); }
 
 	public RewardsMenu getRewardsMenu(Player player)
 	{
