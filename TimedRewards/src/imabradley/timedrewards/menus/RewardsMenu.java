@@ -64,8 +64,17 @@ public class RewardsMenu
 
 				for (String line : config.getStringList(ipath + ".lore"))
 				{
-					String format = getFormattedTime(s);
-					lore.add(Util.colour(line).replace("{time}", format));
+					String time = getFormattedTime(s);
+					long result = getTime(s);
+
+					lore.add(Util.colour(line.replace("{time}", time))
+							.replace("{days}", Long.toString(TimeUnit.MILLISECONDS.toDays(result))
+									.replace("{hours}", Long.toString(TimeUnit.MILLISECONDS.toHours(result) - TimeUnit.DAYS
+											.toHours(TimeUnit.MILLISECONDS.toDays(result))))
+									.replace("{minutes}", Long.toString(TimeUnit.MILLISECONDS.toMinutes(result) - TimeUnit.HOURS
+											.toMinutes(TimeUnit.MILLISECONDS.toHours(result))))
+									.replace("{seconds}", Long.toString(TimeUnit.MILLISECONDS.toSeconds(result) - TimeUnit.MINUTES
+											.toSeconds(TimeUnit.MILLISECONDS.toMinutes(result))))));
 				}
 
 				itemMeta.setLore(lore);
@@ -138,15 +147,17 @@ public class RewardsMenu
 
 			for (String line : config.getStringList(ipath + ".lore"))
 			{
-				String format = getFormattedTime(key);
-				lore.add(Util.colour(line.replace("{time}", format)
-						.replace("{days}", Long.toString(TimeUnit.MILLISECONDS.toDays(getTime(key))))
-						.replace("{hours}", Long.toString(TimeUnit.MILLISECONDS.toHours(getTime(key)) - TimeUnit.MILLISECONDS
-								.toDays(getTime(key))))
-						.replace("{minutes}", Long.toString(TimeUnit.MILLISECONDS.toMinutes(getTime(key)) - TimeUnit.MILLISECONDS
-								.toHours(getTime(key)))))
-						.replace("{seconds}", Long.toString(TimeUnit.MILLISECONDS.toSeconds(getTime(key)) - TimeUnit.MILLISECONDS
-								.toMinutes(getTime(key)))));
+				String time = getFormattedTime(key);
+				long result = getTime(key);
+
+				lore.add(Util.colour(line.replace("{time}", time))
+						.replace("{days}", Long.toString(TimeUnit.MILLISECONDS.toDays(result))
+								.replace("{hours}", Long.toString(TimeUnit.MILLISECONDS.toHours(result) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS
+										.toDays(result))))
+								.replace("{minutes}", Long.toString(TimeUnit.MILLISECONDS.toMinutes(result) - TimeUnit.HOURS
+										.toMinutes(TimeUnit.MILLISECONDS.toHours(result))))
+								.replace("{seconds}", Long.toString(TimeUnit.MILLISECONDS.toSeconds(result) - TimeUnit.MINUTES
+										.toSeconds(TimeUnit.MILLISECONDS.toMinutes(result))))));
 			}
 
 			itemMeta.setLore(lore);
@@ -174,8 +185,8 @@ public class RewardsMenu
 			return "Now";
 		}
 		else
-			return TimeUnit.MILLISECONDS.toDays(result) + "d " + String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(result) - TimeUnit.MILLISECONDS
-					.toDays(result), TimeUnit.MILLISECONDS.toMinutes(result) - TimeUnit.HOURS
+			return TimeUnit.MILLISECONDS.toDays(result) + "d " + String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(result) - TimeUnit.DAYS
+					.toHours(TimeUnit.MILLISECONDS.toDays(result)), TimeUnit.MILLISECONDS.toMinutes(result) - TimeUnit.HOURS
 					.toMinutes(TimeUnit.MILLISECONDS.toHours(result)), TimeUnit.MILLISECONDS.toSeconds(result) - TimeUnit.MINUTES
 					.toSeconds(TimeUnit.MILLISECONDS.toMinutes(result)));
 	}
