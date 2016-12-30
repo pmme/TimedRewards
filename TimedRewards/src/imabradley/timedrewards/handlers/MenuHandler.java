@@ -11,16 +11,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class MenuHandler implements Listener
 {
 	private static HashMap<UUID, RewardsMenu> rewardsMenus = new HashMap<>();
+	private static ArrayList<UUID> runningTasks = new ArrayList<>();
 
 	public MenuHandler(Plugin plugin)
 	{
@@ -135,6 +140,40 @@ public class MenuHandler implements Listener
 				{
 				}
 			}
+		}
+	}
+
+	@EventHandler public void onOpen(InventoryOpenEvent event)
+	{
+		Player player = (Player) event.getPlayer();
+		Inventory inventory = event.getInventory();
+
+		if (inventory.getName().equals(this.getRewardsMenu(player).getInventory().getName()))
+		{
+			RewardsMenu rewardsMenu = this.getRewardsMenu(player);
+			runningTasks.add(player.getUniqueId());
+
+			new BukkitRunnable()
+			{
+				@Override public void run()
+				{
+					if (player.isOnline() && runningTasks.contains(player.getUniqueId()))
+					{
+						rewardsMenu.update();
+					}
+					else cancel();
+				}
+			}.runTaskTimerAsynchronously(TimedRewards.getPlugin(), 0L, 20L);
+		}
+	}
+
+	@EventHandler public void onClose(InventoryCloseEvent event)
+	{
+		Player player = (Player) event.getPlayer();
+
+		if (runningTasks.contains(player.getUniqueId()))
+		{
+			runningTasks.remove(player.getUniqueId());
 		}
 	}
 }
