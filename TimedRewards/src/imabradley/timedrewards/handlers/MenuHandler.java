@@ -15,7 +15,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -68,7 +67,6 @@ public class MenuHandler implements Listener
 			for (String s : config.getConfigurationSection(shortPath).getKeys(false))
 			{
 				String path = shortPath + "." + s;
-				Date date = new Date();
 
 				try
 				{
@@ -81,10 +79,16 @@ public class MenuHandler implements Listener
 						{
 							long next = pconfig.getLong("rewards." + s + ".claim-time");
 
-							if (date.getTime() > (next + (config.getLong(path + ".time") * 1000)))
+							if (System.currentTimeMillis() > (next + (config.getLong(path + ".time") * 1000)))
 							{
 								if (config.get(path + ".permission") == null || player.hasPermission(config.getString(path + ".permission")))
 								{
+									pconfig.set("rewards." + s + ".claim-time", System.currentTimeMillis());
+									if (config.getBoolean("close-inventory-on-claim"))
+									{
+										player.closeInventory();
+									}
+
 									for (String cmd : config.getStringList(path + ".claim-reward-cmds"))
 									{
 										Bukkit.getServer()
@@ -93,10 +97,14 @@ public class MenuHandler implements Listener
 									}
 
 									Util.log("[Claim] " + player.getName() + " has claimed the reward " + s + ".");
-									pconfig.set("rewards." + s + ".claim-time", date.getTime());
 								}
 								else
 								{
+									if (config.getBoolean("close-inventory-on-claim"))
+									{
+										player.closeInventory();
+									}
+
 									Util.messagePlayer(player, TimedRewards.getYamlHandler()
 											.getMessage("no-claim-permission")
 											.replace("{prefix}", TimedRewards.getYamlHandler().getPrefix())
@@ -105,7 +113,14 @@ public class MenuHandler implements Listener
 							}
 							else
 							{
-								Util.messagePlayer(player, "You cannot claim that at the moment ~TODO");
+								if (config.getBoolean("close-inventory-on-claim"))
+								{
+									player.closeInventory();
+								}
+
+								Util.messagePlayer(player, TimedRewards.getYamlHandler()
+										.getMessage("already-claimed")
+										.replace("{prefix}", TimedRewards.getYamlHandler().getPrefix()));
 							}
 						}
 						else
@@ -119,8 +134,6 @@ public class MenuHandler implements Listener
 				catch (NullPointerException e)
 				{
 				}
-
-				player.closeInventory();
 			}
 		}
 	}

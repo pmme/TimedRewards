@@ -8,3 +8,7 @@ prefix: '&7[&6TimedRewards&7]'
 
 invalid-arguments: '{prefix} Invalid arguments, please use: &e{args}&7.'
 no-claim-permission: '{prefix} You do not have permission to claim the &e{reward} &7reward.'
+already-claimed: '{prefix} You have already claimed this reward. Come back later.'
+
+# Replaces the {time} placeholder if 0s remain.
+claim-message: '&aNow'

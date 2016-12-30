@@ -11,10 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class RewardsMenu
@@ -67,14 +64,14 @@ public class RewardsMenu
 					String time = getFormattedTime(s);
 					long result = getTime(s);
 
-					lore.add(Util.colour(line.replace("{time}", time))
-							.replace("{days}", Long.toString(TimeUnit.MILLISECONDS.toDays(result))
-									.replace("{hours}", Long.toString(TimeUnit.MILLISECONDS.toHours(result) - TimeUnit.DAYS
-											.toHours(TimeUnit.MILLISECONDS.toDays(result))))
-									.replace("{minutes}", Long.toString(TimeUnit.MILLISECONDS.toMinutes(result) - TimeUnit.HOURS
-											.toMinutes(TimeUnit.MILLISECONDS.toHours(result))))
-									.replace("{seconds}", Long.toString(TimeUnit.MILLISECONDS.toSeconds(result) - TimeUnit.MINUTES
-											.toSeconds(TimeUnit.MILLISECONDS.toMinutes(result))))));
+					lore.add(Util.colour(line.replace("{time}", time)
+							.replace("{days}", Long.toString(TimeUnit.MILLISECONDS.toDays(result)))
+							.replace("{hours}", Long.toString(TimeUnit.MILLISECONDS.toHours(result) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS
+									.toDays(result))))
+							.replace("{minutes}", Long.toString(TimeUnit.MILLISECONDS.toMinutes(result) - TimeUnit.HOURS
+									.toMinutes(TimeUnit.MILLISECONDS.toHours(result))))
+							.replace("{seconds}", Long.toString(TimeUnit.MILLISECONDS.toSeconds(result) - TimeUnit.MINUTES
+									.toSeconds(TimeUnit.MILLISECONDS.toMinutes(result))))));
 				}
 
 				itemMeta.setLore(lore);
@@ -150,14 +147,14 @@ public class RewardsMenu
 				String time = getFormattedTime(key);
 				long result = getTime(key);
 
-				lore.add(Util.colour(line.replace("{time}", time))
-						.replace("{days}", Long.toString(TimeUnit.MILLISECONDS.toDays(result))
-								.replace("{hours}", Long.toString(TimeUnit.MILLISECONDS.toHours(result) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS
-										.toDays(result))))
-								.replace("{minutes}", Long.toString(TimeUnit.MILLISECONDS.toMinutes(result) - TimeUnit.HOURS
-										.toMinutes(TimeUnit.MILLISECONDS.toHours(result))))
-								.replace("{seconds}", Long.toString(TimeUnit.MILLISECONDS.toSeconds(result) - TimeUnit.MINUTES
-										.toSeconds(TimeUnit.MILLISECONDS.toMinutes(result))))));
+				lore.add(Util.colour(line.replace("{time}", time)
+						.replace("{days}", Long.toString(TimeUnit.MILLISECONDS.toDays(result)))
+						.replace("{hours}", Long.toString(TimeUnit.MILLISECONDS.toHours(result) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS
+								.toDays(result))))
+						.replace("{minutes}", Long.toString(TimeUnit.MILLISECONDS.toMinutes(result) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS
+								.toHours(result))))
+						.replace("{seconds}", Long.toString(TimeUnit.MILLISECONDS.toSeconds(result) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS
+								.toMinutes(result))))));
 			}
 
 			itemMeta.setLore(lore);
@@ -173,6 +170,11 @@ public class RewardsMenu
 		long delay = TimedRewards.getYamlHandler().getConfig().getLong("menus.rewards.reward-items." + key + ".time");
 		long result = claimed - (System.currentTimeMillis() - (delay * 1000L));
 
+		if (result <= 0) // Prevents negative time
+		{
+			return 0;
+		}
+
 		return result;
 	}
 
@@ -182,7 +184,7 @@ public class RewardsMenu
 
 		if (result <= 0)
 		{
-			return "Now";
+			return TimedRewards.getYamlHandler().getMessage("claim-message");
 		}
 		else
 			return TimeUnit.MILLISECONDS.toDays(result) + "d " + String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(result) - TimeUnit.DAYS

@@ -22,6 +22,9 @@ npc:
 # Allows the player to claim all rewards (if has permission) when their data is first created.
 first-time-claim: true
 
+# If true when a player attempts to claim (clicks) a reward the inventory will close, otherwise it will remain open.
+close-inventory-on-claim: true
+
 menus:
   rewards:
     # Size of the menu (inventory)
@@ -82,7 +85,7 @@ menus:
         time: 2419200
         lore:
           - '&fYou can claim this reward once a month!'
-          - '&fTime until next collection: &a{days}d {hours}hrs {minutes}mins'
+          - '&fTime until next collection: &a{time}'
         slot: 23
         # You can make this permission whatever you want! This will prevent players without the permission claiming the reward.
         permission: 'timedrewards.monthly'
