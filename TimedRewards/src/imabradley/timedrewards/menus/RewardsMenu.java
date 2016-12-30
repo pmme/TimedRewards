@@ -139,7 +139,14 @@ public class RewardsMenu
 			for (String line : config.getStringList(ipath + ".lore"))
 			{
 				String format = getFormattedTime(key);
-				lore.add(Util.colour(line).replace("{time}", format));
+				lore.add(Util.colour(line.replace("{time}", format)
+						.replace("{days}", Long.toString(TimeUnit.MILLISECONDS.toDays(getTime(key))))
+						.replace("{hours}", Long.toString(TimeUnit.MILLISECONDS.toHours(getTime(key)) - TimeUnit.MILLISECONDS
+								.toDays(getTime(key))))
+						.replace("{minutes}", Long.toString(TimeUnit.MILLISECONDS.toMinutes(getTime(key)) - TimeUnit.MILLISECONDS
+								.toHours(getTime(key)))))
+						.replace("{seconds}", Long.toString(TimeUnit.MILLISECONDS.toSeconds(getTime(key)) - TimeUnit.MILLISECONDS
+								.toMinutes(getTime(key)))));
 			}
 
 			itemMeta.setLore(lore);
@@ -148,19 +155,27 @@ public class RewardsMenu
 		}
 	}
 
-	public String getFormattedTime(String key)
+	public long getTime(String key)
 	{
 		YamlConfiguration pconfig = TimedRewards.getYamlHandler().getPlayerYaml(player);
 		long claimed = pconfig.getLong("rewards." + key + ".claim-time");
 		long delay = TimedRewards.getYamlHandler().getConfig().getLong("menus.rewards.reward-items." + key + ".time");
 		long result = claimed - (System.currentTimeMillis() - (delay * 1000L));
 
+		return result;
+	}
+
+	public String getFormattedTime(String key)
+	{
+		long result = getTime(key);
+
 		if (result <= 0)
 		{
-			return "&aNow";
+			return "Now";
 		}
 		else
-			return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(result), TimeUnit.MILLISECONDS.toMinutes(result) - TimeUnit.HOURS
+			return TimeUnit.MILLISECONDS.toDays(result) + "d " + String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(result) - TimeUnit.MILLISECONDS
+					.toDays(result), TimeUnit.MILLISECONDS.toMinutes(result) - TimeUnit.HOURS
 					.toMinutes(TimeUnit.MILLISECONDS.toHours(result)), TimeUnit.MILLISECONDS.toSeconds(result) - TimeUnit.MINUTES
 					.toSeconds(TimeUnit.MILLISECONDS.toMinutes(result)));
 	}

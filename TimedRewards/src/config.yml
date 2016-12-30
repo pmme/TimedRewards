@@ -47,8 +47,11 @@ menus:
         # Time in seconds until they can claim it again.
         time: 86400
         # The lore of the item, a description if you like. Note put "lore: []", without quotation, if you don't want a lore.
-        # {time}    - Example: 5d 1hr 20mins 42sec
-        # {digital} - Example: 5d 01:20:42
+        # {time} - Example: 5d 01:01:42 (Same as: {days}d {hours}:{minutes}:{seconds})
+        # {days}
+        # {hours}
+        # {minutes}
+        # {seconds}
         lore:
           - '&fYou can claim this reward once a day!'
           - '&fTime until next collection: &a{time}&f.'
@@ -67,7 +70,7 @@ menus:
         time: 604800
         lore:
           - '&fYou can claim this reward once a week!'
-          - '&fTime until next collection: &a{time}&f.'
+          - '&fTime until next collection: &a{days}d {hours}hrs {minutes}mins {seconds}s'
         slot: 22
         claim-reward-cmds:
           - 'eco give {player} 5000'
@@ -79,7 +82,7 @@ menus:
         time: 2419200
         lore:
           - '&fYou can claim this reward once a month!'
-          - '&fTime until next collection: &a{time}&f.'
+          - '&fTime until next collection: &a{days}d {hours}hrs {minutes}mins'
         slot: 23
         # You can make this permission whatever you want! This will prevent players without the permission claiming the reward.
         permission: 'timedrewards.monthly'
