@@ -34,7 +34,15 @@ public class MenuHandler implements Listener
 
 	public RewardsMenu getRewardsMenu(Player player)
 	{
-		return rewardsMenus.get(player.getUniqueId()) != null ? rewardsMenus.get(player.getUniqueId()) : new RewardsMenu(player);
+		RewardsMenu rewardsMenu = rewardsMenus.get(player.getUniqueId());
+
+		if (rewardsMenu != null)
+		{
+			rewardsMenu.update();
+			return rewardsMenu;
+		}
+
+		return new RewardsMenu(player);
 	}
 
     @EventHandler
@@ -85,7 +93,7 @@ public class MenuHandler implements Listener
 									}
 
 									Util.log("[Claim] " + player.getName() + " has claimed the reward " + s + ".");
-									pconfig.set("rewards." + s + "claim-time", date.getTime());
+									pconfig.set("rewards." + s + ".claim-time", date.getTime());
 								}
 								else
 								{
@@ -102,8 +110,10 @@ public class MenuHandler implements Listener
 						}
 						else
 						{
-							pconfig.set("rewards." + s + ".claim-time", date.getTime());
+							pconfig.set("rewards." + s + ".claim-time", System.currentTimeMillis());
 						}
+
+						TimedRewards.getYamlHandler().savePlayerYaml(player, pconfig);
 					}
 				}
 				catch (NullPointerException e)

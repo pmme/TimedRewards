@@ -60,14 +60,19 @@ public class YamlHandler
 
 		if (!file.exists())
 		{
-			Date date = new Date();
-
 			pconfig.set("name", player.getName());
 			pconfig.set("uuid", player.getUniqueId().toString());
 
 			for (String s : config.getConfigurationSection(path).getKeys(false))
 			{
-				pconfig.set("rewards." + s + ".claim-time", date.getTime());
+				if (config.getBoolean("first-time-claim"))
+				{
+					pconfig.set("rewards." + s + ".claim-time", 0);
+				}
+				else
+				{
+					pconfig.set("rewards." + s + ".claim-time", System.currentTimeMillis());
+				}
 			}
 
 			try

@@ -19,6 +19,8 @@ npc:
     - '&a&lCarl the Creeper'
     - '&bThe Delivery Man'
 
+# Allows the player to claim all rewards (if has permission) when their data is first created.
+first-time-claim: true
 
 menus:
   rewards:
@@ -45,13 +47,14 @@ menus:
         # Time in seconds until they can claim it again.
         time: 86400
         # The lore of the item, a description if you like. Note put "lore: []", without quotation, if you don't want a lore.
+        # {time}    - Example: 5d 1hr 20mins 42sec
+        # {digital} - Example: 5d 01:20:42
         lore:
           - '&fYou can claim this reward once a day!'
-          - '&fTime until next collection: &a{TIME}&f.'
+          - '&fTime until next collection: &a{time}&f.'
         # The menu slot which the item will be displayed in.
         slot: 21
         # Commands which are ran when a player successfully claims a reward. Note: Commands are ran as console.
-        # Aliases:
         # {player} - The player's name.
         # {uuid}   - The player's uuid.
         claim-reward-cmds:
@@ -64,7 +67,7 @@ menus:
         time: 604800
         lore:
           - '&fYou can claim this reward once a week!'
-          - '&fTime until next collection: &a{TIME}&f.'
+          - '&fTime until next collection: &a{time}&f.'
         slot: 22
         claim-reward-cmds:
           - 'eco give {player} 5000'
@@ -76,7 +79,7 @@ menus:
         time: 2419200
         lore:
           - '&fYou can claim this reward once a month!'
-          - '&fTime until next collection: &a{TIME}&f.'
+          - '&fTime until next collection: &a{time}&f.'
         slot: 23
         # You can make this permission whatever you want! This will prevent players without the permission claiming the reward.
         permission: 'timedrewards.monthly'
