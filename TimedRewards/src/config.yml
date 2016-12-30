@@ -11,13 +11,9 @@ metrics-enabled: true
 
 
 # When right-clicking on an NPC this will open the rewards menu.(Works well with plugins such as Citizens).
-npc:
-  enabled: false
-
-  # The name(s) of the NPC which you want the menu to open when right-clicked on.
-  names:
-    - '&a&lCarl the Creeper'
-    - '&bThe Delivery Man'
+npc-names:
+  - '&a&lCarl the Creeper'
+  - '&bThe Delivery Man'
 
 # Allows the player to claim all rewards (if has permission) when their data is first created.
 first-time-claim: true
@@ -50,6 +46,7 @@ menus:
         # Time in seconds until they can claim it again.
         time: 86400
         # The lore of the item, a description if you like. Note put "lore: []", without quotation, if you don't want a lore.
+        # Note: Using {time} will change to the 'claim-message' in messages.yml if there are 0s remaining. (recommended).
         # {time} - Example: 5d 01:01:42 (Same as: {days}d {hours}:{minutes}:{seconds})
         # {days}
         # {hours}
