@@ -32,25 +32,10 @@ public class RewardsCmd implements CommandExecutor
 						Util.messagePlayer(player, "&8-- &6TimedRewards &7Commands Help &8--");
 						Util.messagePlayer(player, "&e/tr help &8- &7Displays this page.");
 						Util.messagePlayer(player, "&e/rewards &8- &7Opens the rewards menu.");
-						Util.messagePlayer(player, "&e/tr claim &7<reward-name> &8- &7Attempts to claim the reward.");
 					}
 					else if (args[0].equalsIgnoreCase("open"))
 					{
 						TimedRewards.getMenuHandler().openRewardsMenu(player);
-					}
-					else if (args[0].equalsIgnoreCase("reward"))
-					{
-						if (args.length == 2)
-						{
-
-						}
-						else
-						{
-							Util.messagePlayer(player, TimedRewards.getYamlHandler()
-									.getMessage("invalid-arguments")
-									.replace("{prefix}", TimedRewards.getYamlHandler().getPrefix())
-									.replace("{args}", "/tr claim <reward-name>"));
-						}
 					}
 				}
 				else
