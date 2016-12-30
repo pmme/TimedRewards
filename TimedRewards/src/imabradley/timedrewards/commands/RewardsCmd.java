@@ -30,12 +30,19 @@ public class RewardsCmd implements CommandExecutor
 					if (args[0].equalsIgnoreCase("help"))
 					{
 						Util.messagePlayer(player, "&8-- &6TimedRewards &7Commands Help &8--");
-						Util.messagePlayer(player, "&e/tr help &8- &7Displays this page.");
+						Util.messagePlayer(player, "&e/timedrewards help &8- &7Displays this page.");
 						Util.messagePlayer(player, "&e/rewards &8- &7Opens the rewards menu.");
 					}
 					else if (args[0].equalsIgnoreCase("open"))
 					{
 						TimedRewards.getMenuHandler().openRewardsMenu(player);
+					}
+					else
+					{
+						Util.messagePlayer(player, TimedRewards.getYamlHandler()
+								.getMessage("invalid-arguments")
+								.replace("{prefix}", TimedRewards.getYamlHandler().getPrefix())
+								.replace("{args}", "/timedrewards help"));
 					}
 				}
 				else
@@ -43,7 +50,7 @@ public class RewardsCmd implements CommandExecutor
 					Util.messagePlayer(player, TimedRewards.getYamlHandler()
 							.getMessage("invalid-arguments")
 							.replace("{prefix}", TimedRewards.getYamlHandler().getPrefix())
-							.replace("{args}", "/tr help"));
+							.replace("{args}", "/timedrewards help"));
 				}
 			}
 		}
