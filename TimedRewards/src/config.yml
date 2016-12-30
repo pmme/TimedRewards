@@ -70,7 +70,7 @@ menus:
         time: 604800
         lore:
           - '&fYou can claim this reward once a week!'
-          - '&fTime until next collection: &a{days}d {hours}hrs {minutes}mins {seconds}s'
+          - '&fTime until next collection: &a{time}&f.'
         slot: 22
         claim-reward-cmds:
           - 'eco give {player} 5000'
@@ -82,7 +82,7 @@ menus:
         time: 2419200
         lore:
           - '&fYou can claim this reward once a month!'
-          - '&fTime until next collection: &a{time}'
+          - '&fTime until next collection: &a{time}&f.'
         slot: 23
         # You can make this permission whatever you want! This will prevent players without the permission claiming the reward.
         permission: 'timedrewards.monthly'
