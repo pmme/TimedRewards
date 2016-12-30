@@ -89,4 +89,3 @@ menus:
         claim-reward-cmds:
           - 'eco give {player} 10000'
           - 'tr msg {player} &7[&6TimedRewards&7] You have claimed the monthly reward!'
-  player: [] # TODO
